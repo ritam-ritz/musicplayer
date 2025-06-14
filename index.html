@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Music Player</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+
+    <!-- User Profile Display Area -->
+    <div class="user-profile-container">
+        <div class="user-profile-display" id="user-profile-clickable">
+            <div class="user-initial-box" id="user-initial-box">?</div> <!-- User Initial -->
+        </div>
+        <!-- Dropdown Menu (Simplified Menu) -->
+        <div class="user-dropdown-menu hidden" id="user-dropdown">
+            <div class="user-dropdown-section username-display-section">
+                <span id="dropdown-username-display">Username</span> <!-- Displays logged-in username -->
+            </div>
+            <div class="user-dropdown-section menu-items-section">
+                <div class="dropdown-menu-item" id="menu-item-change-username">
+                    <i class="fas fa-user-edit fa-fw"></i> Change Username <!-- Menu Item 1 -->
+                </div>
+                <div class="dropdown-menu-item" id="menu-item-change-password">
+                     <i class="fas fa-key fa-fw"></i> Change Password <!-- Menu Item 2 -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End User Profile Display Area -->
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <ul>
+            <li data-category="all" class="active">All Songs</li> <!-- Start with 'All' active -->
+            <li data-category="pop">Pop</li>
+            <li data-category="rock">Rock</li>
+            <li data-category="electronic">Instrumental</li>
+            <!-- Logout Button within the navbar list for structure -->
+            <li><button id="logout-button" class="navbar-logout-button">Logout</button></li>
+        </ul>
+    </nav>
+    <!-- End Navbar -->
+
+    <!-- Playlist Button Container -->
+    <div class="playlist-button-container">
+        <!-- VERIFIED ID -->
+        <button id="create-playlist-button"><i class="fas fa-plus"></i> Create Playlist</button>
+    </div>
+    <!-- End Playlist Button Container -->
+
+    <!-- Main Content Container -->
+    <div class="container">
+        <!-- Song List -->
+         <div id="song-list-container" class="song-list-container">
+            <h3>Available Songs</h3>
+            <ul id="song-list">
+                <!-- Songs will be loaded here by JavaScript -->
+                 <li class="song-list-empty">Loading songs...</li>
+            </ul>
+        </div>
+        <!-- End Song List -->
+
+        <!-- Playlist Display Area (Initially Hidden or shows prompt) -->
+         <div id="playlist-songs-display" class="playlist-songs-display hidden">
+             <div class="playlist-display-header">
+                 <h3 id="playlist-display-title">Playlist Songs:</h3>
+                 <span class="close-playlist-display">×</span>
+             </div>
+            <ul id="playlist-songs-list">
+                <!-- Songs in selected playlist shown here -->
+            </ul>
+        </div>
+         <!-- End Playlist Display Area -->
+
+    </div> <!-- End .container -->
+
+     <!-- Playlist Bar Container (Below Main Container) -->
+    <div id="playlist-container" class="playlist-bar-area">
+        <!-- Playlist bars added here by JS -->
+         <span id="playlist-area-placeholder" class="playlist-area-placeholder">Your playlists will appear here.</span>
+    </div>
+     <!-- End Playlist Bar Container -->
+
+    <!-- Floating Music Player Popup -->
+    <div id="popup-player" class="popup-player hidden"> <!-- Start hidden -->
+        <div class="player-content">
+            <span class="close-popup">×</span> <!-- Close button -->
+            <div class="player-container">
+                <div class="song-info">
+                     <img id="popup-album-art" src="/images/place_icon.jpg" alt="Album Art">
+                     <div class="text-info">
+                        <h2 id="popup-song-title">Song Title</h2>
+                        <p id="popup-artist">Artist Name</p>
+                     </div>
+                </div>
+                <audio id="popup-audio" preload="metadata"></audio> <!-- Preload metadata -->
+                <div class="progress-container">
+                     <div class="progress"></div>
+                     <div class="time-display">
+                         <span id="current-time">0:00</span> / <span id="duration">0:00</span>
+                     </div>
+                </div>
+                 <div class="controls">
+                    <button id="popup-prev" title="Previous"><i class="fas fa-backward-step"></i></button>
+                    <button id="popup-play" title="Play/Pause"><i class="fas fa-play"></i></button> <!-- Icon changes -->
+                    <button id="popup-next" title="Next"><i class="fas fa-forward-step"></i></button>
+                 </div>
+                <div id="popup-lyrics-display" class="popup-lyrics-display">
+                    <h3>Lyrics</h3>
+                    <div id="popup-lyrics-content" class="popup-lyrics-content">
+                        Lyrics will appear here when available...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Floating Music Player -->
+
+    <!-- Playlist Creation Popup -->
+    <!-- VERIFIED ID and Starts with 'hidden' class -->
+    <div id="playlist-popup" class="playlist-popup hidden">
+        <div class="playlist-popup-content">
+            <span class="close-playlist-popup">×</span>
+            <h2>Create New Playlist</h2>
+            <input type="text" id="playlist-name-input" placeholder="Enter Playlist Name" maxlength="50">
+            <button id="create-playlist-confirm">Create</button>
+        </div>
+    </div>
+    <!-- End Playlist Creation Popup -->
+
+    <!-- Add to Playlist Popup -->
+    <div id="add-to-playlist-popup" class="add-to-playlist-popup hidden">
+        <div class="add-to-playlist-content">
+            <span class="close-add-to-playlist-popup">×</span>
+            <h2>Add Song to Playlist</h2>
+             <p id="add-to-playlist-song-name" class="add-to-playlist-song-name">Song:</p> <!-- Show which song -->
+            <ul id="playlist-options">
+                <!-- Playlist options loaded here -->
+            </ul>
+             <p id="add-to-playlist-message" class="add-to-playlist-message"></p> <!-- Feedback -->
+        </div>
+    </div>
+    <!-- End Add to Playlist Popup -->
+
+
+    <!-- MODAL POPUPS for User Profile Actions -->
+    <!-- Change Username Modal -->
+    <div id="change-username-popup" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-modal" data-modal-id="change-username-popup">×</span>
+            <h2>Change Username</h2>
+            <label for="popup-new-username-input">New Username:</label>
+            <input type="text" id="popup-new-username-input" placeholder="Enter new username" autocomplete="off" required minlength="3">
+            <button id="popup-change-username-button">Update Username</button>
+            <div id="popup-change-username-message" class="modal-message"></div> <!-- For feedback -->
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
+    <div id="change-password-popup" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-modal" data-modal-id="change-password-popup">×</span>
+            <h2>Change Password</h2>
+            <label for="popup-current-password-input">Current Password:</label>
+            <input type="password" id="popup-current-password-input" placeholder="Enter current password" autocomplete="current-password" required>
+
+            <label for="popup-new-password-input">New Password:</label>
+            <input type="password" id="popup-new-password-input" placeholder="Min 6 characters" autocomplete="new-password" required minlength="6">
+
+            <label for="popup-confirm-new-password-input">Confirm New Password:</label>
+            <input type="password" id="popup-confirm-new-password-input" placeholder="Retype new password" autocomplete="new-password" required minlength="6">
+
+            <button id="popup-change-password-button">Update Password</button>
+            <div id="popup-change-password-message" class="modal-message"></div> <!-- For feedback -->
+        </div>
+    </div>
+    <!-- End Modal Popups -->
+
+    <!-- Include the main script file -->
+    <script src="script.js"></script>
+
+    <!-- Small inline script for non-critical UI interactions if needed -->
+    <script>
+        // Example: Ensure playlist display close button works even if main script has issues
+        try { // Add try...catch for safety
+            const closePlaylistDisplayButtonInline = document.querySelector('.close-playlist-display');
+            if (closePlaylistDisplayButtonInline) {
+                 closePlaylistDisplayButtonInline.addEventListener('click', () => {
+                     const playlistDisplayInline = document.getElementById('playlist-songs-display');
+                     if (playlistDisplayInline) {
+                        playlistDisplayInline.classList.add('hidden');
+                     }
+                 });
+            }
+        } catch (e) { console.error("Error in inline script:", e); }
+    </script>
+</body>
+</html>

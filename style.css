@@ -1,0 +1,1024 @@
+/* style.css */
+
+/* General Styles */
+:root {
+    --primary-bg: #1a202c; /* Dark background */
+    --secondary-bg: #2d3748; /* Slightly lighter background */
+    --accent-bg: rgba(39, 55, 77, 0.9); /* Navbar/Container background */
+    --accent-gradient: linear-gradient(135deg, rgba(39, 55, 77, 0.95), rgba(25, 35, 45, 0.95));
+    --text-primary: #e2e8f0; /* Light text */
+    --text-secondary: #a0aec0; /* Grey text */
+    --highlight-primary: #4299e1; /* Blue highlight */
+    --highlight-secondary: #38bdf8;
+    --highlight-gradient: linear-gradient(to right, var(--highlight-primary), var(--highlight-secondary));
+    --border-color: rgba(255, 255, 255, 0.1);
+    --error-color: #f56565;
+    --success-color: #80ff80; /* #48bb78; */
+    --shadow-color-light: rgba(0, 0, 0, 0.3);
+    --shadow-color-medium: rgba(0, 0, 0, 0.5);
+    --shadow-color-heavy: rgba(0, 0, 0, 0.7);
+    --icon-color: #94a3b8;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-image: url('images/music-background-dark-vinyl-wallpaper-preview.jpg');
+    background-color: var(--primary-bg); /* Fallback color */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 100vh;
+    padding-top: 70px; /* Add padding to prevent content from hiding under fixed navbar */
+}
+
+/* Add specific styles for Login/Register pages if needed */
+body.auth-page {
+    justify-content: center; /* Center content vertically on auth pages */
+     padding-top: 0; /* Remove padding-top if navbar isn't shown */
+}
+
+/* General Link Styling */
+a {
+    color: var(--highlight-primary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+a:hover {
+    color: var(--highlight-secondary);
+    text-decoration: underline;
+}
+
+/* General Button Styling */
+button {
+    cursor: pointer;
+    font-family: inherit;
+    border-radius: 6px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, opacity 0.2s ease;
+    border: none;
+}
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow-color-light);
+}
+button:active {
+    transform: translateY(-1px);
+     box-shadow: 0 2px 4px var(--shadow-color-light);
+}
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+
+/* Navbar Styles */
+.navbar {
+    position: fixed; /* Fixed at the top */
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: var(--accent-gradient);
+    padding: 0 15px; /* Padding left/right */
+    box-shadow: 0 4px 10px var(--shadow-color-medium);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-color);
+    z-index: 1000; /* High z-index */
+    height: 60px; /* Fixed height */
+    display: flex;
+    align-items: center;
+}
+
+.navbar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center; /* Vertically align items */
+    width: 100%; /* Take full width */
+    justify-content: center; /* Center items by default */
+}
+
+.navbar li {
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: color 0.2s ease, background-color 0.2s ease;
+    font-size: 1em;
+    font-weight: 500;
+    padding: 8px 15px; /* Vertical/Horizontal padding */
+    border-radius: 8px;
+    margin: 0 5px; /* Spacing between items */
+    white-space: nowrap; /* Prevent wrapping */
+}
+
+.navbar li:hover:not(:has(button)) { /* Don't style the li containing the button on hover */
+    color: var(--highlight-primary);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+/* Active category style */
+.navbar li.active {
+    color: var(--highlight-primary);
+    font-weight: bold;
+     background-color: rgba(66, 153, 225, 0.1); /* Subtle background for active */
+}
+
+
+/* Logout Button Style */
+.navbar-logout-button {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 500;
+    padding: 0; /* Remove padding from button itself */
+    font-family: inherit;
+    transition: color 0.2s ease;
+}
+.navbar-logout-button:hover {
+    color: var(--error-color); /* Red on hover */
+    transform: none; /* Disable button hover transform */
+     box-shadow: none;
+}
+/* Style the LI containing the button */
+.navbar li:has(.navbar-logout-button):hover {
+     background-color: rgba(255, 77, 77, 0.1); /* Subtle red background on LI hover */
+}
+
+/* --- User Profile Display (Top Right) --- */
+.user-profile-container {
+    position: absolute;   /* Position relative to the navbar */
+    top: 50%;             /* Center vertically */
+    right: 20px;          /* Distance from the right edge */
+    transform: translateY(-50%); /* Fine-tune vertical centering */
+    z-index: 1001; /* Above navbar content */
+}
+
+.user-profile-display {
+    position: relative; /* Allows absolute positioning of the dropdown relative to this */
+    cursor: pointer;
+}
+
+.user-initial-box {
+    width: 38px;
+    height: 38px;
+    background: var(--highlight-gradient);
+    color: white;
+    border-radius: 8px; /* Slightly rounded square */
+    /* border-radius: 50%; /* Uncomment for circle */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2em;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 2px 5px var(--shadow-color-light);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    user-select: none; /* Prevent text selection */
+}
+.user-profile-display:hover .user-initial-box {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px var(--shadow-color-medium);
+}
+
+/* Dropdown Menu */
+.user-dropdown-menu {
+    position: absolute;
+    top: 115%; /* Position below the icon box */
+    right: 0;
+    min-width: 230px; /* Adjusted width */
+    background: var(--accent-gradient);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 10px 0; /* Padding top/bottom, no horizontal needed */
+    border-radius: 8px;
+    box-shadow: 0 8px 20px var(--shadow-color-medium);
+    z-index: 1000; /* Below user icon container but above page */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px) scale(0.95);
+    transform-origin: top right;
+    transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+}
+.user-dropdown-menu.visible { /* Class to show */
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.user-dropdown-section {
+    padding: 0; /* Remove padding here, apply to items */
+}
+.username-display-section {
+    padding: 8px 15px;
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 5px;
+}
+#dropdown-username-display {
+    font-weight: bold;
+    font-size: 1.1em;
+    color: #fff;
+}
+.menu-items-section {
+    padding-top: 5px;
+}
+.dropdown-menu-item {
+    padding: 10px 20px; /* More padding */
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Space between icon and text */
+    font-weight: 500;
+}
+.dropdown-menu-item i.fa-fw { /* Font Awesome fixed width */
+    color: var(--icon-color);
+    transition: color 0.2s ease;
+    width: 18px; /* Ensure alignment */
+    text-align: center;
+}
+.dropdown-menu-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--highlight-primary);
+}
+.dropdown-menu-item:hover i {
+    color: var(--highlight-primary);
+}
+
+/* Playlist Button Container */
+.playlist-button-container {
+    width: 95%;
+    max-width: 1200px;
+    display: flex;
+    justify-content: flex-end; /* Align to the right */
+    margin-bottom: 15px;
+}
+#create-playlist-button {
+    background: var(--highlight-gradient);
+    color: white;
+    padding: 10px 18px;
+    font-size: 1em;
+    font-weight: 500;
+    box-shadow: 0 3px 6px var(--shadow-color-light);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+#create-playlist-button i {
+    font-size: 0.9em;
+}
+
+/* Main Content Container */
+.container {
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap */
+    gap: 15px; /* Space between song list and playlist display */
+    width: 95%;
+    max-width: 1200px;
+    margin-bottom: 15px; /* Space before playlist bars */
+}
+
+/* Song List Container */
+.song-list-container {
+    flex: 1 1 300px; /* Flex grow, shrink, basis */
+    min-width: 250px;
+    background: var(--accent-gradient);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px var(--shadow-color-medium);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color);
+    max-height: 65vh; /* Limit height and allow scroll */
+    overflow-y: auto;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.song-list-container:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px var(--shadow-color-medium);
+}
+.song-list-container h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+    color: #fff;
+}
+#song-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+#song-list li {
+    padding: 9px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+    font-size: 0.95em;
+    font-weight: 500;
+    border-radius: 4px;
+    margin-bottom: 3px; /* Small space between items */
+}
+#song-list li:last-child {
+    border-bottom: none;
+}
+#song-list li:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--highlight-primary);
+}
+.song-list-empty { /* Style for empty message */
+     padding: 15px;
+     text-align: center;
+     color: var(--text-secondary);
+     font-style: italic;
+     cursor: default;
+     border-bottom: none !important;
+ }
+ .song-list-empty:hover { /* Prevent hover effect on empty message */
+     background: none;
+     color: var(--text-secondary);
+ }
+
+
+/* Playlist Songs Display */
+.playlist-songs-display {
+    flex: 2 1 400px; /* Takes more space */
+    background: var(--accent-gradient);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px var(--shadow-color-medium);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color);
+    max-height: 65vh; /* Same max height */
+    overflow-y: auto;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease; /* Added opacity */
+}
+.playlist-songs-display:not(.hidden) { /* Avoid transform when hidden */
+     transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+}
+.playlist-songs-display:hover:not(.hidden) {
+     transform: translateY(-3px);
+    box-shadow: 0 10px 20px var(--shadow-color-medium);
+}
+.playlist-display-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+}
+.playlist-display-header h3 {
+    margin: 0;
+    color: #fff;
+}
+.close-playlist-display {
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: color 0.2s ease;
+    line-height: 1; /* Adjust line height for better centering */
+}
+.close-playlist-display:hover {
+    color: var(--error-color);
+}
+#playlist-songs-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+#playlist-songs-list li {
+     padding: 9px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+    font-size: 0.95em;
+    font-weight: 500;
+    border-radius: 4px;
+     margin-bottom: 3px;
+}
+#playlist-songs-list li:last-child {
+    border-bottom: none;
+}
+#playlist-songs-list li:hover {
+     background: rgba(255, 255, 255, 0.08);
+    color: var(--highlight-primary);
+}
+.playlist-empty-message { /* Style for empty message */
+    padding: 15px;
+    text-align: center;
+    color: var(--text-secondary);
+    font-style: italic;
+    cursor: default;
+    border-bottom: none !important;
+}
+.playlist-empty-message:hover { /* Prevent hover effect */
+     background: none;
+     color: var(--text-secondary);
+ }
+
+
+/* Playlist Bar Area */
+.playlist-bar-area {
+  width: 95%;
+  max-width: 1200px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start; /* Align bars to the left */
+  gap: 10px; /* Space between bars */
+  margin-top: 0; /* Removed top margin */
+  margin-bottom: 20px; /* Space at the bottom */
+  padding: 10px;
+  background: rgba(39, 55, 77, 0.5); /* Semi-transparent background */
+  border-radius: 8px;
+  min-height: 40px; /* Ensure it has some height even when empty */
+}
+.playlist-area-placeholder {
+    color: var(--text-secondary);
+    font-style: italic;
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    display: block; /* Ensure it shows */
+}
+.playlist-bar {
+  background: var(--secondary-bg);
+  color: var(--text-primary);
+  padding: 8px 15px;
+  border-radius: 6px;
+  margin: 0; /* Remove margin, use gap from container */
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 4px var(--shadow-color-light);
+  border: 1px solid var(--border-color);
+  white-space: nowrap; /* Prevent wrapping */
+  flex-shrink: 0; /* Prevent shrinking */
+}
+.playlist-bar:hover {
+  background: var(--accent-bg);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px var(--shadow-color-medium);
+  color: var(--highlight-primary);
+}
+
+/* Popup Player Styles */
+.popup-player {
+    /* display: none; // Handled by .hidden */
+    position: fixed;
+    bottom: 20px; /* Position near bottom */
+    right: 20px;
+    width: 90%;
+    max-width: 400px; /* Compact size */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-blend-mode: overlay; /* Blend image with background */
+    background-color: rgba(39, 55, 77, 0.9); /* Darker tint */
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 15px 30px var(--shadow-color-heavy);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color);
+    z-index: 9999; /* Very high z-index */
+    cursor: grab; /* Indicate draggable */
+    user-select: none; /* Prevent text selection */
+    transform: translateX(0); /* Reset transform */
+     opacity: 0; /* Start hidden for fade-in */
+     visibility: hidden;
+     transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, bottom 0.3s ease, right 0.3s ease; /* Added bottom/right transition */
+}
+.popup-player:not(.hidden) {
+    opacity: 1;
+    visibility: visible;
+}
+.popup-player:active {
+    cursor: grabbing;
+}
+.player-content {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.close-popup {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    font-size: 22px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: color 0.2s ease;
+    z-index: 1; /* Above other content */
+    background: rgba(0,0,0,0.2);
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+.close-popup:hover {
+    color: var(--error-color);
+    background: rgba(255, 77, 77, 0.2);
+}
+.player-container {
+    width: 100%;
+    text-align: center;
+}
+.song-info {
+    display: flex; /* Align image and text side-by-side */
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+    width: 100%; /* Take full width */
+    text-align: left; /* Align text left */
+}
+#popup-album-art {
+    width: 60px; /* Smaller album art */
+    height: 60px;
+    border-radius: 8px; /* Square art */
+    object-fit: cover;
+    box-shadow: 0 4px 8px var(--shadow-color-medium);
+    flex-shrink: 0; /* Prevent shrinking */
+}
+.text-info {
+    flex-grow: 1; /* Allow text to take remaining space */
+    overflow: hidden; /* Hide overflow */
+}
+#popup-song-title {
+    font-size: 1.1em;
+    font-weight: 600;
+    margin: 0 0 4px 0;
+    white-space: nowrap; /* Prevent wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add ellipsis if too long */
+    color: #fff;
+}
+#popup-artist {
+    font-size: 0.9em;
+    color: var(--text-secondary);
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.progress-container {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    height: 6px; /* Slimmer bar */
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 10px; /* Space below progress */
+    position: relative; /* For time display */
+}
+.progress {
+    background: var(--highlight-gradient);
+    height: 100%;
+    width: 0%;
+    border-radius: 5px;
+    transition: width 0.1s linear; /* Smooth progress updates */
+}
+.time-display {
+    position: absolute;
+    right: 8px;
+    top: -18px; /* Position above bar */
+    font-size: 0.75em;
+    color: var(--text-secondary);
+    background: rgba(0,0,0,0.4);
+    padding: 1px 4px;
+    border-radius: 3px;
+}
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* More space between controls */
+    margin-bottom: 15px;
+}
+.controls button {
+    background: none; /* Transparent background */
+    color: var(--text-primary);
+    border: none;
+    font-size: 1.4em; /* Larger icons */
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.1s ease;
+    padding: 5px;
+    line-height: 1; /* Ensure icon is centered */
+    border-radius: 50%; /* Circular hover effect */
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.controls button:hover {
+    color: var(--highlight-primary);
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: none; /* Disable hover transform */
+    box-shadow: none;
+}
+.controls button#popup-play {
+    font-size: 1.8em; /* Make play/pause button larger */
+    width: 50px;
+    height: 50px;
+}
+.controls button:active {
+    transform: scale(0.95); /* Slight scale down on click */
+}
+.popup-lyrics-display {
+    margin-top: 15px;
+    max-height: 100px; /* Limit lyrics height */
+    overflow-y: auto;
+    text-align: left;
+    padding-right: 5px; /* Space for scrollbar */
+    border-top: 1px solid var(--border-color);
+    padding-top: 10px;
+}
+.popup-lyrics-display h3 {
+    margin: 0 0 8px 0;
+    font-size: 0.9em;
+    color: var(--text-secondary);
+}
+.popup-lyrics-content {
+    font-size: 0.85em;
+    color: var(--text-primary);
+    line-height: 1.5;
+    white-space: pre-wrap; /* Respect newlines in lyrics */
+}
+
+/* Scrollbar Styling (Optional) */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.4); }
+
+/* Generic Popup Styles (Playlists Creation/Add) */
+.playlist-popup, .add-to-playlist-popup {
+    /* display: none; // Relies on .hidden class */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--accent-gradient);
+    padding: 25px 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px var(--shadow-color-medium);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color);
+    z-index: 10001; /* High z-index, slightly above modals if needed */
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    /* Add transitions */
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+}
+/* Hidden state */
+.playlist-popup.hidden, .add-to-playlist-popup.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, -50%) scale(0.9);
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+}
+
+.playlist-popup-content, .add-to-playlist-content {
+    position: relative;
+}
+.close-playlist-popup, .close-add-to-playlist-popup {
+    position: absolute;
+    top: -10px;
+    right: -5px;
+    font-size: 26px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: color 0.2s ease;
+    background: none; /* Ensure no background */
+     padding: 5px; /* Make clickable area slightly larger */
+     line-height: 1;
+}
+.close-playlist-popup:hover, .close-add-to-playlist-popup:hover {
+    color: #fff;
+}
+.playlist-popup h2, .add-to-playlist-popup h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #fff;
+}
+#playlist-name-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+    font-size: 1em;
+}
+#playlist-name-input:focus {
+     outline: none;
+    border-color: var(--highlight-primary);
+    background: rgba(255, 255, 255, 0.12);
+}
+#create-playlist-confirm {
+    background: var(--highlight-gradient);
+    color: white;
+    padding: 10px 20px;
+    font-size: 1em;
+    font-weight: 500;
+    box-shadow: 0 3px 6px var(--shadow-color-light);
+    width: 100%; /* Full width */
+}
+/* Add to Playlist Specific */
+.add-to-playlist-song-name {
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+    font-size: 0.9em;
+}
+#playlist-options {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 15px 0;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+}
+#playlist-options li {
+    padding: 10px 15px;
+    border-bottom: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+    font-size: 1em;
+    font-weight: 500;
+    text-align: left;
+}
+#playlist-options li:last-child { border-bottom: none; }
+#playlist-options li:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--highlight-primary);
+}
+.playlist-options-empty { /* Style for empty message */
+     padding: 15px; text-align: center; color: var(--text-secondary); font-style: italic; cursor: default;
+     border-bottom: none !important;
+ }
+ .playlist-options-empty:hover { /* Prevent hover effect */
+      background: none !important;
+      color: var(--text-secondary) !important;
+ }
+.add-to-playlist-message {
+    margin-top: 15px;
+    font-size: 0.9em;
+    min-height: 1.2em;
+    font-weight: 500;
+    color: var(--success-color); /* Default to success */
+}
+.add-to-playlist-message.error { color: var(--error-color); }
+
+
+/* --- Login/Register Page Styles --- */
+.login-container {
+    width: 90%;
+    max-width: 400px; /* Max width */
+    margin: 50px auto; /* Adjust margin */
+    padding: 30px 40px;
+    border-radius: 12px;
+    text-align: center;
+    background: var(--accent-gradient);
+    box-shadow: 0 8px 20px var(--shadow-color-medium);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+.login-container h2 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    color: #fff;
+    font-weight: 600;
+}
+.login-container label {
+    display: block;
+    margin-bottom: 8px;
+    text-align: left;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+.login-container input[type="text"],
+.login-container input[type="password"] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+    font-size: 1em;
+}
+.login-container input[type="text"]:focus,
+.login-container input[type="password"]:focus {
+    outline: none;
+    border-color: var(--highlight-primary);
+    background: rgba(255, 255, 255, 0.1);
+}
+.login-container button[type="submit"] {
+    background: var(--highlight-gradient);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 500;
+    width: 100%;
+    margin-top: 10px;
+}
+.auth-message {
+    min-height: 1.2em;
+    margin-bottom: 15px;
+    font-weight: 500;
+    font-size: 0.95em;
+}
+.auth-message.error { color: var(--error-color); }
+.auth-message.success { color: var(--success-color); }
+.auth-link {
+    color: var(--highlight-primary);
+    font-weight: 500;
+}
+.auth-link:hover {
+    color: var(--highlight-secondary);
+}
+
+/* --- MODAL POPUPS (User Profile Actions) --- */
+.modal {
+    /* display: none; // Relies on .hidden */
+    position: fixed;
+    z-index: 10000; /* Highest z-index */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7); /* Darker overlay */
+    backdrop-filter: blur(6px);
+    align-items: center;
+    justify-content: center;
+    padding: 20px; /* Padding for smaller screens */
+    opacity: 1; /* Start visible for transition */
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+/* Add display:flex when removing hidden class */
+/* .modal:not(.hidden) { // Not needed if default is flex */
+    /* display: flex; */
+/* } */
+/* Hidden state for modal */
+.modal.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal-content {
+    background: var(--accent-gradient);
+    margin: auto;
+    padding: 30px 40px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    width: 90%;
+    max-width: 480px; /* Slightly wider */
+    box-shadow: 0 10px 30px var(--shadow-color-heavy);
+    position: relative;
+    color: var(--text-primary);
+    /* Add transform for potential animation */
+     transform: scale(1);
+     transition: transform 0.3s ease;
+}
+.modal.hidden .modal-content { /* Animate content when hiding modal */
+     transform: scale(0.95);
+}
+
+.close-modal {
+    color: var(--text-secondary);
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    line-height: 1;
+    background: none;
+    border: none; /* Ensure it's treated as button-like */
+    padding: 5px;
+}
+.close-modal:hover, .close-modal:focus { color: #fff; }
+.modal-content h2 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 30px;
+    color: #fff;
+}
+.modal-content label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+.modal-content input[type="text"],
+.modal-content input[type="password"] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 11px 14px;
+    margin-bottom: 18px; /* More spacing */
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+    font-size: 1em;
+}
+.modal-content input[type="text"]:focus,
+.modal-content input[type="password"]:focus {
+     outline: none;
+    border-color: var(--highlight-primary);
+    background: rgba(255, 255, 255, 0.12);
+}
+.modal-content button {
+    display: block;
+    width: 100%;
+    background: var(--highlight-gradient);
+    color: white;
+    padding: 12px 15px;
+    font-size: 1.05em;
+    font-weight: 500;
+    margin-top: 25px; /* Space above button */
+}
+.modal-message {
+    margin-top: 18px;
+    font-size: 0.95em;
+    min-height: 1.3em;
+    text-align: center;
+    font-weight: 500;
+    color: var(--error-color); /* Default error color */
+}
+.modal-message.success {
+    color: var(--success-color);
+}
+
+/* Hidden Class - CRITICAL */
+.hidden {
+    display: none !important; /* Use !important to ensure override */
+    /* You can keep opacity/visibility for transitions if desired,
+       but display:none is the primary mechanism */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none; /* Prevent interaction when hidden */
+}
+
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    body { padding-top: 55px; } /* Adjust for slightly smaller navbar */
+    .navbar { height: 55px; padding: 0 10px; }
+    .navbar li { padding: 6px 10px; font-size: 0.95em; }
+    .user-profile-container { right: 15px; }
+    .user-initial-box { width: 34px; height: 34px; font-size: 1.1em; }
+    .container { flex-direction: column; gap: 20px; } /* Stack song list and playlist display */
+    .song-list-container, .playlist-songs-display { max-height: 45vh; /* Adjust height */ width: 100%; flex: none; box-sizing: border-box;}
+    .playlist-bar-area { padding: 8px; }
+    .popup-player { max-width: 95%; right: 10px; bottom: 10px; padding: 15px; }
+    #popup-album-art { width: 50px; height: 50px; }
+    #popup-song-title { font-size: 1em; }
+    #popup-artist { font-size: 0.8em; }
+    .controls button { font-size: 1.2em; width: 35px; height: 35px; }
+    .controls button#popup-play { font-size: 1.6em; width: 45px; height: 45px; }
+    .modal-content { padding: 25px 25px; }
+}
+
+@media (max-width: 480px) {
+    body { padding-top: 50px; }
+    .navbar { height: 50px; }
+    .navbar li { padding: 5px 8px; font-size: 0.9em; margin: 0 3px; }
+    .navbar ul { justify-content: space-around; } /* Space out items more */
+    .user-profile-container { right: 10px; }
+    .user-initial-box { width: 32px; height: 32px; font-size: 1em; }
+    .user-dropdown-menu { min-width: 180px; }
+    #create-playlist-button { padding: 8px 12px; font-size: 0.9em; }
+    .song-list-container, .playlist-songs-display { padding: 15px; }
+    .playlist-bar { padding: 6px 10px; font-size: 0.9em; }
+    .popup-player { max-width: 100%; right: 5px; bottom: 5px; left: 5px; width: auto; border-radius: 10px;}
+    .controls { gap: 15px; }
+    .login-container { padding: 25px 20px; }
+    .modal-content { padding: 20px 20px; }
+    .modal-content h2 { font-size: 1.3em; margin-bottom: 20px; }
+    .modal-content button { padding: 10px 12px; font-size: 1em; }
+}

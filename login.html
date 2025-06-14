@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="style.css"> <!-- Links to style.css in the root -->
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>Login</h2>
+        <!-- Form submits via JavaScript fetch, not default action/method -->
+        <form id="login-form">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required><br><br>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required><br><br>
+
+            <!-- Element to display login error messages -->
+            <div id="error-message" style="color: #ff4d4d; margin-bottom: 15px; min-height: 1em;"></div>
+
+            <button type="submit">Login</button>
+        </form>
+        <div class="register-link-container" style="margin-top: 20px; font-size: 0.9em;">
+            <p>Don't have an account? <a href="/register" style="color: #1e90ff; text-decoration: none;">Register here</a></p>
+        </div>
+    </div>
+
+    <!-- JavaScript for handling login via fetch and storing username -->
+    <script>
+        const loginForm = document.getElementById('login-form');
+        const errorMessageDiv = document.getElementById('error-message');
+
+        loginForm.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Prevent default page reload
+
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const username = usernameInput.value; // Get the username entered by the user
+            const password = passwordInput.value;
+
+            // Clear previous error message
+            errorMessageDiv.textContent = '';
+
+            try {
+                const response = await fetch('/login', { // Send request to the /login endpoint
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json', // Indicate we're sending JSON data
+                    },
+                    body: JSON.stringify({ username: username, password: password }), // Send username/password as JSON
+                });
+
+                const result = await response.json(); // Parse the JSON response from the server
+
+                if (response.ok && result.success) {
+                    // Login successful
+                    // Store the logged-in username in sessionStorage
+                    sessionStorage.setItem('loggedInUser', username);
+                    console.log(`Stored user '${username}' in sessionStorage.`);
+
+                    // Redirect to the main music player page
+                    console.log('Login successful, redirecting to /index.html');
+                    window.location.href = '/index.html';
+                } else {
+                    // Login failed - Display error message from the server's response
+                    console.error('Login failed:', result.message);
+                    errorMessageDiv.textContent = result.message || 'Login failed. Please try again.';
+                }
+            } catch (error) {
+                // Network error or issue parsing response
+                console.error('Error during login fetch:', error);
+                errorMessageDiv.textContent = 'An error occurred. Please check connection and try again.';
+            }
+        });
+    </script>
+    <!-- End JavaScript -->
+
+</body>
+</html>
