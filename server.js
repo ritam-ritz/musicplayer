@@ -3,7 +3,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const fs = require('fs').promises; // Use promise-based fs for async/await
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // --- Configuration ---
 const USERS_JSON_PATH = path.join(__dirname, 'users.json'); // Path to your users file
